@@ -1,0 +1,34 @@
+{
+  "tracks": [
+    {
+      "id": "TRK001",
+      "name": "Song 01",
+      "file": "track_001.mp3"
+    },
+    {
+      "id": "TRK002",
+      "name": "Song 02",
+      "file": "track_002.mp3"
+    },
+    {
+      "id": "TRK003",
+      "name": "Song 03",
+      "file": "track_003.mp3"
+    },
+    {
+      "id": "TRK004",
+      "name": "Song 04",
+      "file": "track_004.mp3"
+    },
+    {
+      "id": "TRK005",
+      "name": "Song 05",
+      "file": "track_005.mp3"
+    },
+    {
+      "id": "TRK006",
+      "name": "Song 06",
+      "file": "track_006.mp3"
+    }
+  ]
+}

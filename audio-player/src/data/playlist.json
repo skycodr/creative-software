@@ -1,0 +1,44 @@
+{
+  "albums": [
+    {
+      "id": "ALB001",
+      "name": "Album 01",
+      "artists": [
+        {
+          "id": "ART001",
+          "name": "Artist 01"
+        },
+        {
+          "id": "ART002",
+          "name": "Artist 02"
+        }
+      ],
+      "tracks": [
+        {
+          "id": "TRK001",
+          "name": "Track 01"
+        },
+        {
+          "id": "TRK002",
+          "name": "Track 02"
+        },
+        {
+          "id": "TRK003",
+          "name": "Track 03"
+        },
+        {
+          "id": "TRK004",
+          "name": "Track 04"
+        },
+        {
+          "id": "TRK005",
+          "name": "Track 05"
+        },
+        {
+          "id": "TRK006",
+          "name": "Track 06"
+        }
+      ]
+    }
+  ]
+}
