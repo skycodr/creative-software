@@ -51,6 +51,7 @@ const AudioClip = (source, callback) => {
       audio.removeEventListener('loadeddata', hOnLoadedData);
       audio.removeEventListener('pause', hOnPause);
       audio.removeEventListener('timeupdate', hOnUpdate);
+      audio = null;
     },
   };
 };
