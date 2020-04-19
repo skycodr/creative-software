@@ -9,6 +9,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [value, setValue] = useState(0);
+
   const [cells, linkedList, gridSize] = useGrid();
   const [node, setNode] = useNode(linkedList);
 
@@ -26,7 +27,7 @@ function App() {
     if (value < 50 || value > 250) {
       // Reset will automatically move
       // the pointer to the head
-      linkedList.reset();
+      // linkedList.reset();
     }
 
     const nextNode = linkedList.next();
@@ -58,7 +59,7 @@ function App() {
         <Grid dataSource={cells} />
         <Player size={10} dataSource={node} />
       </GridContainer>
-      <Button label="Advance" onClick={hOnClick} />
+      <Button label="Go!" onClick={hOnClick} />
       <div>{value}</div>
     </>
   );

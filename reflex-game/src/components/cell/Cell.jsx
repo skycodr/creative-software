@@ -11,11 +11,11 @@ const style = ({ x, y }, size) => ({
 });
 
 const Cell = (props) => {
-  const { id, index, size, pos } = props.dataSource;
+  const { id, size, pos } = props.dataSource;
 
   return (
     <div style={style(pos, size)}>
-      <span>{`${id}(${index})`}</span>
+      <span>{`(${id})`}</span>
     </div>
   );
 };

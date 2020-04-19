@@ -7,7 +7,7 @@ const style = () => ({
 });
 
 const Score = ({ value }) => {
-  return <div style={style()}>{value}</div>;
+  return <div style={style()}>Score: {value}</div>;
 };
 
 Score.propTypes = {
