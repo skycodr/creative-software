@@ -10,6 +10,8 @@ const PLAYER_SIZE = 10; // Size of the player entity
 const FPS = 30; // Fixed fps to run
 const OSCILLATION_PERIOD = 60; // multiples of 30;
 const DELAY_BEFORE_NEW_ROUND = 500; // Render screen before resetting in ms()
+const GRID_SIZE = 300;
+const COLUMN_COUNT = 3;
 
 function App() {
   const [score, setScore] = useState(0);
@@ -17,7 +19,7 @@ function App() {
 
   const [startTime, setStartTime] = useState(null);
 
-  const [cells, linkedList, gridSize] = useGrid();
+  const [cells, linkedList, gridSize] = useGrid(GRID_SIZE, COLUMN_COUNT);
   const [node, setNode] = useNode(linkedList);
 
   // Update oscillation value
