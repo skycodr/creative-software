@@ -2,25 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Cell from '../cell/Cell';
+import { NodeProps } from '../../prop-defs';
 
 const Grid = (props) => {
-  const { size, cells } = props.dataSource;
+  const { size, dataSource } = props;
 
   return (
     <div style={{ width: size, height: size, border: `1px solid lightgray`, position: 'fixed' }}>
       {
-        cells.map(({ value: cell }, i) => <Cell key={`cell_${i}`} dataSource={cell} />)
+        dataSource.map(({ value }, i) => <Cell key={`cell_${i}`} dataSource={value} />)
       }
     </div>
   );
 };
 
 Grid.propTypes = {
-  dataSource: PropTypes.shape({
-    list: PropTypes.object,
-    cells: PropTypes.array,
-    size: PropTypes.number,
-  }).isRequired,
+  size: PropTypes.number,
+  dataSource: PropTypes.arrayOf(NodeProps).isRequired,
 };
 
 export default Grid;

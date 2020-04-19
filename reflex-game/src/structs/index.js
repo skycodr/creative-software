@@ -1,3 +1,5 @@
-import GridStruct from './Grid';
+import Grid from './Grid';
+import Cell from './Cell';
+import LinkedList from './LinkedList';
 
-export { GridStruct };
+export { Grid, Cell, LinkedList };

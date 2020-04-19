@@ -38,7 +38,7 @@ const LinkedList = (idExtractor) => {
     },
     /**
      * Resets the pointer to the head
-     * 
+     *
      */
     reset: () => {
       pointer = head.id;
@@ -48,14 +48,18 @@ const LinkedList = (idExtractor) => {
      *
      */
     next: () => {
-      const node = cache[pointer];
-      pointer = node.nextId;
+      const node = cache[pointer] || null;
+      pointer = (node && node.nextId) || null;
       return node;
     },
 
+    isHead: ({ id }) => head.id === id,
+
+    isTail: ({ id }) => tail.id === id,
+
     /**
      * Linked list in as an array
-     * 
+     *
      */
     toArray: () => array,
   };

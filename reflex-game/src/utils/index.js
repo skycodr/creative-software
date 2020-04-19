@@ -1,3 +1,3 @@
 import Timer from './Timer';
-
-export { Timer };
+import * as Numerical from './Numerical';
+export { Timer, Numerical };

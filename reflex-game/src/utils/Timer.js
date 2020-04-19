@@ -1,16 +1,35 @@
-const Timer = (tickSize = .00001, tickInterval = 1000 ) => {
-  let timerRef = null;
-  let time = 0;
-  return (callbackFn) => ({
-    reset: () => (time = 0),
-    start: () => {
-      setInterval(() => {
-        time += tickSize;
-        callbackFn && callbackFn(time);
-      }, tickInterval);
-    },
-    stop: () => timerRef && clearInterval(timerRef),
-  });
+import { wrapAround } from './Numerical';
+
+const Timer = (callback, tickSize, fps) => {
+  let intervalPerFrame = 1000 / fps;
+  let timerId;
+  let isStarted = false;
+  let tick = 0;
+
+  return () => {
+    let previousTime = Date.now();
+    const loop = () => {
+      timerId = requestAnimationFrame(loop);
+      let currentTime = Date.now();
+      var delta = currentTime - previousTime;
+      if (delta > intervalPerFrame) {
+        previousTime = currentTime - (delta % intervalPerFrame);
+        tick = wrapAround(tick + tickSize, 0, intervalPerFrame);
+        callback && callback(tick);
+      }
+    };
+    return {
+      start: () => {
+        isStarted = true;
+        timerId = requestAnimationFrame(loop);
+      },
+      stop: () => {
+        isStarted = false;
+        cancelAnimationFrame(timerId);
+      },
+      isStarted: () => isStarted,
+    };
+  };
 };
 
 export default Timer;

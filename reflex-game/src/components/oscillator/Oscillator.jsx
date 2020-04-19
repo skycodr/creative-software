@@ -1,29 +1,57 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Timer } from '../../utils';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
+import { useTimer } from '../../hooks';
+import { TWO_PI } from '../../utils/Numerical';
 
-const timerRef = Timer();
+const style = (size) => ({
+  width: size,
+  height: 10,
+  backgroundColor: 'lightgray',
+  border: '1px solid lightgray',
+  position: 'relative',
+});
 
-const wrapAround = (v, min, max) => v > max ? min : v;
+const thumbStyle = (x) => ({
+  position: 'fixed',
+  width: 10,
+  height: 10,
+  backgroundColor: 'red',
+  border: '1px solid red',
+  left: x,
+});
 
 const Oscillator = (props) => {
-  const [tick, setTick] = useState(0);
-  const [oTick, setOTick] = useState(0);
-  const [oscillation, setOscillation] = useState(-1);
+  const { size, onUpdate, posX, fps } = props;
 
-  useEffect(() => {
-    const timerInstance = timerRef(setTick);
-    timerInstance.start();
-  }, []);
+  const timer = useTimer({
+    callback: (frameCount) => {
+      const amplitude = props.size - 10;
+      const period = 60;
+      const x = amplitude * Math.sin(TWO_PI * frameCount / period);
+      onUpdate && onUpdate(x);
+    },
+    fps
+  });
 
-  useEffect(() => {
-    const value = wrapAround(oTick + 1, 0, 360);
-    const oValue = Math.sin(value);
-    setOTick(value);
-    setOscillation(oValue);
-  }, [tick]);
+  if (timer && !timer.isStarted()) {
+    timer.start();
+  }
 
-  return <div>{oscillation}</div>;
+  return <div style={style(size)}><div style={thumbStyle(posX)} /></div>;
+};
+
+
+Oscillator.propTypes = {
+  size: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  posX: PropTypes.number,
+  fps: PropTypes.number
+};
+
+Oscillator.defaultProps = {
+  posX: 0,
+  fps: 30,
 };
 
 export default Oscillator;
