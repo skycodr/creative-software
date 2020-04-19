@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useTimer } from '../../hooks';
-import { TWO_PI } from '../../utils/Numerical';
+import { TWO_PI, transformRange } from '../../utils/Numerical';
 
 const style = (size) => ({
   width: size,
@@ -12,24 +12,23 @@ const style = (size) => ({
   position: 'relative',
 });
 
-const thumbStyle = (x) => ({
+const thumbStyle = (size, thumbSize, posX) => ({
   position: 'fixed',
-  width: 10,
-  height: 10,
+  width: thumbSize,
+  height: thumbSize,
   backgroundColor: 'red',
   border: '1px solid red',
-  left: x,
+  left: transformRange(posX, -size, size, 0, size - thumbSize),
 });
 
 const Oscillator = (props) => {
-  const { size, onUpdate, posX, fps } = props;
+  const { size, onUpdate, posX, fps, thumbSize, period } = props;
 
   const timer = useTimer({
     callback: (frameCount) => {
-      const amplitude = props.size - 10;
-      const period = 60;
+      const amplitude = props.size;
       const x = amplitude * Math.sin(TWO_PI * frameCount / period);
-      onUpdate && onUpdate(x);
+      onUpdate && onUpdate(Math.ceil(x));
     },
     fps
   });
@@ -38,20 +37,25 @@ const Oscillator = (props) => {
     timer.start();
   }
 
-  return <div style={style(size)}><div style={thumbStyle(posX)} /></div>;
+  return <div style={style(size)}><div style={thumbStyle(size, thumbSize, posX)} /></div>;
 };
 
 
 Oscillator.propTypes = {
   size: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  threshold: PropTypes.number.isRequired,
   posX: PropTypes.number,
-  fps: PropTypes.number
+  fps: PropTypes.number,
+  period: PropTypes.number,
+  thumbSize: PropTypes.number,
 };
 
 Oscillator.defaultProps = {
   posX: 0,
   fps: 30,
+  period: 120,
+  thumbSize: 10,
 };
 
 export default Oscillator;

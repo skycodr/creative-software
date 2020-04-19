@@ -1,5 +1,3 @@
-import { wrapAround } from './Numerical';
-
 const Timer = (callback, tickSize, fps) => {
   let intervalPerFrame = 1000 / fps;
   let timerId;
@@ -14,7 +12,7 @@ const Timer = (callback, tickSize, fps) => {
       var delta = currentTime - previousTime;
       if (delta > intervalPerFrame) {
         previousTime = currentTime - (delta % intervalPerFrame);
-        tick = wrapAround(tick + tickSize, 0, intervalPerFrame);
+        tick = tick + tickSize; 
         callback && callback(tick);
       }
     };

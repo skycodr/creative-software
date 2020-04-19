@@ -5,37 +5,37 @@ import { useGrid, useNode } from './hooks';
 import { GridContainer } from './containers';
 import { Grid, Oscillator, Player, Button, Score } from './components';
 
+const THRESHOLD = 200; // Threshold value the checked
+const PLAYER_SIZE = 10; // Size of the player entity
+const FPS = 30; // Fixed fps to run
+const OSCILLATION_PERIOD = 60; // multiples of 30;
+const DELAY_BEFORE_NEW_ROUND = 500; // Render screen before resetting in ms()
+
 function App() {
   const [score, setScore] = useState(0);
+  const [oscillationValue, setOscillationValue] = useState(0);
+
   const [startTime, setStartTime] = useState(null);
-  const [value, setValue] = useState(0);
 
   const [cells, linkedList, gridSize] = useGrid();
   const [node, setNode] = useNode(linkedList);
 
-  const hOnUpdate = (x) => {
-    setValue(Math.ceil(x));
-  };
+  // Update oscillation value
+  const hOnUpdate = (oValue) => setOscillationValue(oValue);
 
+  // Find the next node
   const hOnClick = () => {
-    // 1. Check the oscillators value against the threshold
-    // 2. If it is within next
-    // 3. If not reset()
+    const v = Math.abs(oscillationValue);
 
-    const v = value;
-
-    if (value < 50 || value > 250) {
-      // Reset will automatically move
-      // the pointer to the head
-      // linkedList.reset();
+    if (v > THRESHOLD) {
+      linkedList.reset();
     }
 
     const nextNode = linkedList.next();
     setNode(nextNode);
   };
 
-  // Every time a node changes
-  // Check if end state has reached
+  // Check game
   useEffect(() => {
     if (node) {
       if (linkedList.isHead(node)) {
@@ -44,9 +44,11 @@ function App() {
         const endTime = Date.now();
         const elapsedTime = (endTime - startTime) / 1000; // in seconds
         const newScore = Math.ceil(100 / elapsedTime);
-        linkedList.reset();
-        setNode(linkedList.next());
         setScore(score + newScore);
+        setTimeout(() => {
+          linkedList.reset();
+          setNode(linkedList.next());
+        }, DELAY_BEFORE_NEW_ROUND);
       }
     }
   }, [node]);
@@ -54,13 +56,19 @@ function App() {
   return (
     <>
       <Score value={score} />
-      <Oscillator size={gridSize} onUpdate={hOnUpdate} posX={value} />
+      <Oscillator
+        size={gridSize}
+        onUpdate={hOnUpdate}
+        posX={oscillationValue}
+        threshold={THRESHOLD}
+        fps={FPS}
+        period={OSCILLATION_PERIOD}
+      />
       <GridContainer size={gridSize}>
         <Grid dataSource={cells} />
-        <Player size={10} dataSource={node} />
+        <Player size={PLAYER_SIZE} dataSource={node} />
       </GridContainer>
       <Button label="Go!" onClick={hOnClick} />
-      <div>{value}</div>
     </>
   );
 }
